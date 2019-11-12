@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinMovement : MonoBehaviour
+/*
+ * 
+ * PLAYER OBJECT REQUIRES RIGIDBODY [uncheck "Use Gravity" and check "Is Kinematic"] AND TAG "Player" FOR TRIGGER TO WORK
+ * 
+ */
+public class CollectableScript : MonoBehaviour
 {
     private float max;
     private float min;
+    public static int collectedCoins = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -22,4 +28,13 @@ public class CoinMovement : MonoBehaviour
         transform.Rotate(new Vector3(0, 80, 0) * Time.deltaTime);
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Destroy(gameObject);
+            collectedCoins++;
+            Debug.Log("Coins collected: " + collectedCoins);
+        }
+    }
 }
