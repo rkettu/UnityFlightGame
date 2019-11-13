@@ -6,24 +6,23 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-public class TCPTestClient : MonoBehaviour
+public class TcpConnector : MonoBehaviour
 {
-    [SerializeField] private string TCP_host = "192.168.1.1";
+    [SerializeField] private string TCP_host = "192.168.1.1"; // raspi IP
     [SerializeField] private int TCP_port = 5000;
-    [SerializeField] private int buffer_size = 1024;
+    [SerializeField] private int buffer_size = 20;
     #region private members 	
     private TcpClient socketConnection;
     private Thread clientReceiveThread;
     #endregion
 
-    private string serverMessage;
+    private string serverMessage = "";
 
-    public string rasp_data
+    // raspi data accessor:
+    public string RaspiData
     {
-        get
-        {
-            return rasp_data;
-        }
+        get => serverMessage;
+        
     }
 
     // Use this for initialization 	
@@ -80,7 +79,7 @@ public class TCPTestClient : MonoBehaviour
                         Array.Copy(bytes, 0, incommingData, 0, length);
                         // Convert byte array to string message. 
                         serverMessage = Encoding.UTF8.GetString(incommingData);
-                        Debug.Log("server message received as: " + serverMessage);
+                        Debug.Log("Sensor data received as: " + serverMessage);
                     }
                 }
             }
