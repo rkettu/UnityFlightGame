@@ -7,7 +7,8 @@ public class UIScript : MonoBehaviour
 {
     private static int points = 0;
     static Text scoreValue;
-    public float timer = 0f;
+    private float timer = 0f;
+	private int minutes = 0;
     Text timerValue;
     // Start is called before the first frame update
     void Start()
@@ -20,14 +21,18 @@ public class UIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //timer = timer + 1 / 30;
-        timer += Time.deltaTime;
-        string time = "Time: "+timer.ToString("F2");
-        timerValue.text = time;
-        Debug.Log(time);
-       
+		// Updating timer value...
+		timer += Time.deltaTime;
+        if(timer > 60f)
+        {
+            timer -= 60f;
+            minutes++;
+        }
+        timerValue.text = "Time: " + minutes + ":" + time.ToString("F2");
     }
 
+	// Updates UI with +1 coin collected
+	// Called from Coin's script
     public static void updateCoins()
     {
         points++;
