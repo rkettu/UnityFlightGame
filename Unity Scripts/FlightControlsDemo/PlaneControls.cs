@@ -57,8 +57,8 @@ public class PlaneControls : MonoBehaviour
         {
             kulmadata[i] = float.Parse(str_data[i], System.Globalization.CultureInfo.InvariantCulture);
         }
-        transform.rotation = Quaternion.Euler(kulmadata[0], 0, -kulmadata[1]);
-        //transform.Rotate(0f, kulmadata[1], 0f);
+        //transform.rotation = Quaternion.Euler(-kulmadata[0], 0, kulmadata[1]);
+        transform.Rotate(-kulmadata[0] /22.5f, 0, kulmadata[1] /22.5f);
         
         transform.Translate(0f, 0f, speed);
     }
@@ -66,10 +66,12 @@ public class PlaneControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         speedUp = Input.GetKeyDown(KeyCode.X);
         speedDown = Input.GetKeyDown(KeyCode.Z);
-        pitchInput = Input.GetAxis("Pitch");
-        rollInput = Input.GetAxis("Roll");
-        yawInput = Input.GetAxis("Yaw");
+        pitchInput = Input.GetAxis("Vertical");
+        rollInput = Input.GetAxis("Horizontal");
+        //yawInput = Input.GetAxis("Yaw");
+        */
     }
 }

@@ -10,7 +10,7 @@ public class TcpConnector : MonoBehaviour
 {
     [SerializeField] private string TCP_host = "192.168.1.1"; // raspi IP
     [SerializeField] private int TCP_port = 5000;
-    [SerializeField] private int buffer_size = 20;
+    [SerializeField] private int buffer_size = 1024;
     #region private members 	
     private TcpClient socketConnection;
     private Thread clientReceiveThread;
