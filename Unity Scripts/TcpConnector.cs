@@ -8,34 +8,54 @@ using UnityEngine;
 
 public class TcpConnector : MonoBehaviour
 {
-    [SerializeField] private string TCP_host = "192.168.1.1"; // raspi IP
-    [SerializeField] private int TCP_port = 5000;
-    [SerializeField] private int buffer_size = 1024;
+    public static TcpConnector tcp_instance;
+
+    private string TCP_host = "192.168.1.1"; // raspi IP
+    private int TCP_port = 5000;
+    private int buffer_size = 1024;
     #region private members 	
     private TcpClient socketConnection;
     private Thread clientReceiveThread;
     #endregion
 
+    private bool initialized = false;
     private string serverMessage = "";
 
-    // raspi data accessor:
+    // raspi sensor data accessor:
     public string RaspiData
     {
         get => serverMessage;
         
     }
 
-    // Use this for initialization 	
-    void Start()
+    private void Awake()
     {
-        ConnectToTcpServer();
+        // creates a singleton instance of this gameObject
+        if (tcp_instance == null)
+        {
+            //Debug.Log ("TCP connector instance was null.");
+            tcp_instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (tcp_instance != this)
+        {
+            //Debug.Log ("TCP connector instance was not this. Disabling and destroying...");
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+
+        }
+
+        // run once only
+        if (!initialized && gameObject.activeSelf)
+        {
+            ConnectToTcpServer();
+
+            initialized = true; // prevent this block from running again
+            Debug.Log("initialized.");
+        }
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
+
+    // close TCP socket & kill its thread when this gameobject is destroyed
     void OnDestroy()
     {
         socketConnection.Close();
