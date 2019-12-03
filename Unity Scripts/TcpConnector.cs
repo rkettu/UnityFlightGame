@@ -10,16 +10,15 @@ public class TcpConnector : MonoBehaviour
 {
     public static TcpConnector tcp_instance;
 
+    #region private members 
     private string TCP_host = "192.168.1.1"; // raspi IP
     private int TCP_port = 5000;
     private int buffer_size = 1024;
-    #region private members 	
     private TcpClient socketConnection;
     private Thread clientReceiveThread;
-    #endregion
-
     private bool initialized = false;
     private string serverMessage = "";
+    #endregion
 
     // raspi sensor data accessor:
     public string RaspiData
@@ -99,7 +98,7 @@ public class TcpConnector : MonoBehaviour
                         Array.Copy(bytes, 0, incommingData, 0, length);
                         // Convert byte array to string message. 
                         serverMessage = Encoding.UTF8.GetString(incommingData);
-                        Debug.Log("Sensor data received as: " + serverMessage);
+                        //Debug.Log("Sensor data received as: " + serverMessage);
                     }
                 }
             }
